@@ -1,0 +1,30 @@
+#header{
+ .navbar-nav{
+ @if $type == xs {
+ float: none;
+ li{
+ border-bottom: 1px solid #999;
+ }
+ }
+ @if $type == sm{ 
+ float: left;
+ }
+ @if $type == md or $type == lg{ 
+ float: left;
+ margin-bottom: 10px;
+ }
+ }
+}
+.imgBox{
+ @if $type == xs {
+ margin-bottom: 10px;
+ }
+ @if $type == sm{ 
+ margin-bottom: 20px;
+ }
+ @if $type == md or $type == lg {
+ float: left;
+ }
+}
+
+

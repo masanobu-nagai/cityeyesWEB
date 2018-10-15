@@ -1,0 +1,861 @@
+<!DOCTYPE html><html lang='en' class=''>
+<head>
+
+	<meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+	<link rel="mask-icon" type="" href="//static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/z-/pen/xVMVJa" />
+
+<link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/199011/arcon.css'><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+<style class="cp-pen-styles">/*mixin by Dario Corsi
+https://codepen.io/dariocorsi/pen/jqxERJ
+*/
+body {
+  background-color: #F0F2F5;
+  font-family: "arcon", sans-serif;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+body .error {
+  z-index: 1000000000;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  text-align: center;
+  display: none;
+  pointer-events: none;
+}
+body .error.shown {
+  display: block;
+}
+body .error .overlay {
+  pointer-events: auto;
+  background-color: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: calc(100% - 120px);
+  max-width: 600px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: rgba(68, 75, 85, 0.0198333333) 1px 1px, rgba(70, 77, 87, 0.0196666667) 2px 2px, rgba(71, 78, 88, 0.0195) 3px 3px, rgba(73, 79, 89, 0.0193333333) 4px 4px, rgba(74, 81, 90, 0.0191666667) 5px 5px, rgba(75, 82, 92, 0.019) 6px 6px, rgba(77, 83, 93, 0.0188333333) 7px 7px, rgba(78, 85, 94, 0.0186666667) 8px 8px, rgba(80, 86, 96, 0.0185) 9px 9px, rgba(81, 87, 97, 0.0183333333) 10px 10px, rgba(82, 89, 98, 0.0181666667) 11px 11px, rgba(84, 90, 100, 0.018) 12px 12px, rgba(85, 92, 101, 0.0178333333) 13px 13px, rgba(86, 93, 102, 0.0176666667) 14px 14px, rgba(88, 94, 103, 0.0175) 15px 15px, rgba(89, 96, 105, 0.0173333333) 16px 16px, rgba(91, 97, 106, 0.0171666667) 17px 17px, rgba(92, 98, 107, 0.017) 18px 18px, rgba(93, 100, 109, 0.0168333333) 19px 19px, rgba(95, 101, 110, 0.0166666667) 20px 20px, rgba(96, 102, 111, 0.0165) 21px 21px, rgba(98, 104, 113, 0.0163333333) 22px 22px, rgba(99, 105, 114, 0.0161666667) 23px 23px, rgba(101, 107, 115, 0.016) 24px 24px, rgba(102, 108, 116, 0.0158333333) 25px 25px, rgba(103, 109, 118, 0.0156666667) 26px 26px, rgba(105, 111, 119, 0.0155) 27px 27px, rgba(106, 112, 120, 0.0153333333) 28px 28px, rgba(108, 113, 122, 0.0151666667) 29px 29px, rgba(109, 115, 123, 0.015) 30px 30px, rgba(110, 116, 124, 0.0148333333) 31px 31px, rgba(112, 117, 126, 0.0146666667) 32px 32px, rgba(113, 119, 127, 0.0145) 33px 33px, rgba(115, 120, 128, 0.0143333333) 34px 34px, rgba(116, 122, 130, 0.0141666667) 35px 35px, rgba(117, 123, 131, 0.014) 36px 36px, rgba(119, 124, 132, 0.0138333333) 37px 37px, rgba(120, 126, 134, 0.0136666667) 38px 38px, rgba(122, 127, 135, 0.0135) 39px 39px, rgba(123, 129, 136, 0.0133333333) 40px 40px, rgba(125, 130, 138, 0.0131666667) 41px 41px, rgba(126, 131, 139, 0.013) 42px 42px, rgba(127, 133, 140, 0.0128333333) 43px 43px, rgba(129, 134, 142, 0.0126666667) 44px 44px, rgba(130, 135, 143, 0.0125) 45px 45px, rgba(132, 137, 144, 0.0123333333) 46px 46px, rgba(133, 138, 146, 0.0121666667) 47px 47px, rgba(135, 140, 147, 0.012) 48px 48px, rgba(136, 141, 148, 0.0118333333) 49px 49px, rgba(137, 142, 150, 0.0116666667) 50px 50px, rgba(139, 144, 151, 0.0115) 51px 51px, rgba(140, 145, 152, 0.0113333333) 52px 52px, rgba(142, 147, 154, 0.0111666667) 53px 53px, rgba(143, 148, 155, 0.011) 54px 54px, rgba(145, 149, 156, 0.0108333333) 55px 55px, rgba(146, 151, 158, 0.0106666667) 56px 56px, rgba(147, 152, 159, 0.0105) 57px 57px, rgba(149, 154, 160, 0.0103333333) 58px 58px, rgba(150, 155, 162, 0.0101666667) 59px 59px, rgba(152, 156, 163, 0.01) 60px 60px, rgba(153, 158, 164, 0.0098333333) 61px 61px, rgba(155, 159, 166, 0.0096666667) 62px 62px, rgba(156, 161, 167, 0.0095) 63px 63px, rgba(158, 162, 168, 0.0093333333) 64px 64px, rgba(159, 163, 170, 0.0091666667) 65px 65px, rgba(160, 165, 171, 0.009) 66px 66px, rgba(162, 166, 172, 0.0088333333) 67px 67px, rgba(163, 168, 174, 0.0086666667) 68px 68px, rgba(165, 169, 175, 0.0085) 69px 69px, rgba(166, 170, 176, 0.0083333333) 70px 70px, rgba(168, 172, 178, 0.0081666667) 71px 71px, rgba(169, 173, 179, 0.008) 72px 72px, rgba(171, 175, 180, 0.0078333333) 73px 73px, rgba(172, 176, 182, 0.0076666667) 74px 74px, rgba(173, 177, 183, 0.0075) 75px 75px, rgba(175, 179, 184, 0.0073333333) 76px 76px, rgba(176, 180, 186, 0.0071666667) 77px 77px, rgba(178, 182, 187, 0.007) 78px 78px, rgba(179, 183, 189, 0.0068333333) 79px 79px, rgba(181, 184, 190, 0.0066666667) 80px 80px, rgba(182, 186, 191, 0.0065) 81px 81px, rgba(184, 187, 193, 0.0063333333) 82px 82px, rgba(185, 189, 194, 0.0061666667) 83px 83px, rgba(187, 190, 195, 0.006) 84px 84px, rgba(188, 192, 197, 0.0058333333) 85px 85px, rgba(190, 193, 198, 0.0056666667) 86px 86px, rgba(191, 194, 199, 0.0055) 87px 87px, rgba(193, 196, 201, 0.0053333333) 88px 88px, rgba(194, 197, 202, 0.0051666667) 89px 89px, rgba(195, 199, 204, 0.005) 90px 90px, rgba(197, 200, 205, 0.0048333333) 91px 91px, rgba(198, 202, 206, 0.0046666667) 92px 92px, rgba(200, 203, 208, 0.0045) 93px 93px, rgba(201, 204, 209, 0.0043333333) 94px 94px, rgba(203, 206, 210, 0.0041666667) 95px 95px, rgba(204, 207, 212, 0.004) 96px 96px, rgba(206, 209, 213, 0.0038333333) 97px 97px, rgba(207, 210, 215, 0.0036666667) 98px 98px, rgba(209, 212, 216, 0.0035) 99px 99px, rgba(210, 213, 217, 0.0033333333) 100px 100px, rgba(212, 214, 219, 0.0031666667) 101px 101px, rgba(213, 216, 220, 0.003) 102px 102px, rgba(215, 217, 221, 0.0028333333) 103px 103px, rgba(216, 219, 223, 0.0026666667) 104px 104px, rgba(218, 220, 224, 0.0025) 105px 105px, rgba(219, 222, 226, 0.0023333333) 106px 106px, rgba(221, 223, 227, 0.0021666667) 107px 107px, rgba(222, 225, 228, 0.002) 108px 108px, rgba(224, 226, 230, 0.0018333333) 109px 109px, rgba(225, 227, 231, 0.0016666667) 110px 110px, rgba(227, 229, 232, 0.0015) 111px 111px, rgba(228, 230, 234, 0.0013333333) 112px 112px, rgba(230, 232, 235, 0.0011666667) 113px 113px, rgba(231, 233, 237, 0.001) 114px 114px, rgba(233, 235, 238, 0.0008333333) 115px 115px, rgba(234, 236, 239, 0.0006666667) 116px 116px, rgba(236, 238, 241, 0.0005) 117px 117px, rgba(237, 239, 242, 0.0003333333) 118px 118px, rgba(239, 241, 244, 0.0001666667) 119px 119px, rgba(240, 242, 245, 0) 120px 120px, rgba(67, 74, 84, 0.02) 0px 0px;
+}
+body .error .overlay .close {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+body .error .overlay .close:before, body .error .overlay .close:after {
+  position: absolute;
+  content: '';
+  background-color: #E6E9ED;
+  width: 100%;
+  height: 20%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+body .error .overlay .close:after {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+body .error .overlay .close:hover:before, body .error .overlay .close:hover:after {
+  background-color: #CCD1D9;
+}
+body .error .overlay .colorcode {
+  width: 100%;
+}
+body .error .overlay .colorcode input {
+  width: calc(100% - 4px);
+  font-family: "arcon", sans-serif;
+  text-align: center;
+  border: none;
+  outline: none;
+  padding: 4px;
+  background-color: #E6E9ED;
+}
+body .error .overlay .desc {
+  pointer-events: auto;
+  margin-top: 10px;
+}
+body .error .catchment {
+  pointer-events: auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(50, 49, 51, 0.1);
+}
+body .dropdown {
+  z-index: 1000;
+  position: relative;
+  margin: auto;
+  width: 250px;
+  border-radius: 4px;
+  box-shadow: rgba(70, 77, 87, 0.0196666667) 1px 1px, rgba(73, 79, 89, 0.0193333333) 2px 2px, rgba(75, 82, 92, 0.019) 3px 3px, rgba(78, 85, 94, 0.0186666667) 4px 4px, rgba(81, 87, 97, 0.0183333333) 5px 5px, rgba(84, 90, 100, 0.018) 6px 6px, rgba(86, 93, 102, 0.0176666667) 7px 7px, rgba(89, 96, 105, 0.0173333333) 8px 8px, rgba(92, 98, 107, 0.017) 9px 9px, rgba(95, 101, 110, 0.0166666667) 10px 10px, rgba(98, 104, 113, 0.0163333333) 11px 11px, rgba(101, 107, 115, 0.016) 12px 12px, rgba(103, 109, 118, 0.0156666667) 13px 13px, rgba(106, 112, 120, 0.0153333333) 14px 14px, rgba(109, 115, 123, 0.015) 15px 15px, rgba(112, 117, 126, 0.0146666667) 16px 16px, rgba(115, 120, 128, 0.0143333333) 17px 17px, rgba(117, 123, 131, 0.014) 18px 18px, rgba(120, 126, 134, 0.0136666667) 19px 19px, rgba(123, 129, 136, 0.0133333333) 20px 20px, rgba(126, 131, 139, 0.013) 21px 21px, rgba(129, 134, 142, 0.0126666667) 22px 22px, rgba(132, 137, 144, 0.0123333333) 23px 23px, rgba(135, 140, 147, 0.012) 24px 24px, rgba(137, 142, 150, 0.0116666667) 25px 25px, rgba(140, 145, 152, 0.0113333333) 26px 26px, rgba(143, 148, 155, 0.011) 27px 27px, rgba(146, 151, 158, 0.0106666667) 28px 28px, rgba(149, 154, 160, 0.0103333333) 29px 29px, rgba(152, 156, 163, 0.01) 30px 30px, rgba(155, 159, 166, 0.0096666667) 31px 31px, rgba(158, 162, 168, 0.0093333333) 32px 32px, rgba(160, 165, 171, 0.009) 33px 33px, rgba(163, 168, 174, 0.0086666667) 34px 34px, rgba(166, 170, 176, 0.0083333333) 35px 35px, rgba(169, 173, 179, 0.008) 36px 36px, rgba(172, 176, 182, 0.0076666667) 37px 37px, rgba(175, 179, 184, 0.0073333333) 38px 38px, rgba(178, 182, 187, 0.007) 39px 39px, rgba(181, 184, 190, 0.0066666667) 40px 40px, rgba(184, 187, 193, 0.0063333333) 41px 41px, rgba(187, 190, 195, 0.006) 42px 42px, rgba(190, 193, 198, 0.0056666667) 43px 43px, rgba(193, 196, 201, 0.0053333333) 44px 44px, rgba(195, 199, 204, 0.005) 45px 45px, rgba(198, 202, 206, 0.0046666667) 46px 46px, rgba(201, 204, 209, 0.0043333333) 47px 47px, rgba(204, 207, 212, 0.004) 48px 48px, rgba(207, 210, 215, 0.0036666667) 49px 49px, rgba(210, 213, 217, 0.0033333333) 50px 50px, rgba(213, 216, 220, 0.003) 51px 51px, rgba(216, 219, 223, 0.0026666667) 52px 52px, rgba(219, 222, 226, 0.0023333333) 53px 53px, rgba(222, 225, 228, 0.002) 54px 54px, rgba(225, 227, 231, 0.0016666667) 55px 55px, rgba(228, 230, 234, 0.0013333333) 56px 56px, rgba(231, 233, 237, 0.001) 57px 57px, rgba(234, 236, 239, 0.0006666667) 58px 58px, rgba(237, 239, 242, 0.0003333333) 59px 59px, rgba(240, 242, 245, 0) 60px 60px, rgba(67, 74, 84, 0.02) 0px 0px;
+}
+body .dropdown .selection {
+  position: relative;
+  cursor: pointer;
+  background-color: #434A54;
+  color: #F5F7FA;
+  padding: 10px;
+  z-index: 100;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+body .dropdown .selection:after {
+  position: absolute;
+  content: '';
+  top: 50%;
+  right: 8px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-bottom: 0px solid #F5F7FA;
+  border-top: 8px solid #F5F7FA;
+  width: 0px;
+}
+body .dropdown .options {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  position: absolute;
+  top: 100%;
+  min-width: 100%;
+  background-color: #FFF;
+  height: 0px;
+  overflow: hidden;
+  box-shadow: rgba(70, 77, 87, 0.0196666667) 1px 1px, rgba(73, 79, 89, 0.0193333333) 2px 2px, rgba(75, 82, 92, 0.019) 3px 3px, rgba(78, 85, 94, 0.0186666667) 4px 4px, rgba(81, 87, 97, 0.0183333333) 5px 5px, rgba(84, 90, 100, 0.018) 6px 6px, rgba(86, 93, 102, 0.0176666667) 7px 7px, rgba(89, 96, 105, 0.0173333333) 8px 8px, rgba(92, 98, 107, 0.017) 9px 9px, rgba(95, 101, 110, 0.0166666667) 10px 10px, rgba(98, 104, 113, 0.0163333333) 11px 11px, rgba(101, 107, 115, 0.016) 12px 12px, rgba(103, 109, 118, 0.0156666667) 13px 13px, rgba(106, 112, 120, 0.0153333333) 14px 14px, rgba(109, 115, 123, 0.015) 15px 15px, rgba(112, 117, 126, 0.0146666667) 16px 16px, rgba(115, 120, 128, 0.0143333333) 17px 17px, rgba(117, 123, 131, 0.014) 18px 18px, rgba(120, 126, 134, 0.0136666667) 19px 19px, rgba(123, 129, 136, 0.0133333333) 20px 20px, rgba(126, 131, 139, 0.013) 21px 21px, rgba(129, 134, 142, 0.0126666667) 22px 22px, rgba(132, 137, 144, 0.0123333333) 23px 23px, rgba(135, 140, 147, 0.012) 24px 24px, rgba(137, 142, 150, 0.0116666667) 25px 25px, rgba(140, 145, 152, 0.0113333333) 26px 26px, rgba(143, 148, 155, 0.011) 27px 27px, rgba(146, 151, 158, 0.0106666667) 28px 28px, rgba(149, 154, 160, 0.0103333333) 29px 29px, rgba(152, 156, 163, 0.01) 30px 30px, rgba(155, 159, 166, 0.0096666667) 31px 31px, rgba(158, 162, 168, 0.0093333333) 32px 32px, rgba(160, 165, 171, 0.009) 33px 33px, rgba(163, 168, 174, 0.0086666667) 34px 34px, rgba(166, 170, 176, 0.0083333333) 35px 35px, rgba(169, 173, 179, 0.008) 36px 36px, rgba(172, 176, 182, 0.0076666667) 37px 37px, rgba(175, 179, 184, 0.0073333333) 38px 38px, rgba(178, 182, 187, 0.007) 39px 39px, rgba(181, 184, 190, 0.0066666667) 40px 40px, rgba(184, 187, 193, 0.0063333333) 41px 41px, rgba(187, 190, 195, 0.006) 42px 42px, rgba(190, 193, 198, 0.0056666667) 43px 43px, rgba(193, 196, 201, 0.0053333333) 44px 44px, rgba(195, 199, 204, 0.005) 45px 45px, rgba(198, 202, 206, 0.0046666667) 46px 46px, rgba(201, 204, 209, 0.0043333333) 47px 47px, rgba(204, 207, 212, 0.004) 48px 48px, rgba(207, 210, 215, 0.0036666667) 49px 49px, rgba(210, 213, 217, 0.0033333333) 50px 50px, rgba(213, 216, 220, 0.003) 51px 51px, rgba(216, 219, 223, 0.0026666667) 52px 52px, rgba(219, 222, 226, 0.0023333333) 53px 53px, rgba(222, 225, 228, 0.002) 54px 54px, rgba(225, 227, 231, 0.0016666667) 55px 55px, rgba(228, 230, 234, 0.0013333333) 56px 56px, rgba(231, 233, 237, 0.001) 57px 57px, rgba(234, 236, 239, 0.0006666667) 58px 58px, rgba(237, 239, 242, 0.0003333333) 59px 59px, rgba(240, 242, 245, 0) 60px 60px, rgba(67, 74, 84, 0.02) 0px 0px;
+}
+body .dropdown .options div {
+  padding: 0 10px;
+  cursor: pointer;
+}
+body .dropdown .options div:hover {
+  background-color: #656D78;
+  color: #F5F7FA;
+}
+body .dropdown .options div.selected {
+  font-weight: bold;
+  /*Don't add a bold font type so that adding bold keeps the same font size*/
+}
+body .dropdown:hover .options {
+  height: auto;
+  padding: 10px 0;
+}
+body .dropdown:hover .selection {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+body .dropdown:hover .selection:after {
+  border: 8px solid transparent;
+  border-top: 0px solid #F5F7FA;
+  border-bottom: 8px solid #F5F7FA;
+}
+body .help {
+  cursor: help;
+  position: fixed;
+  top: 40px;
+  right: 30px;
+  box-shadow: rgba(71, 78, 88, 0.0195) 1px 1px, rgba(75, 82, 92, 0.019) 2px 2px, rgba(80, 86, 96, 0.0185) 3px 3px, rgba(84, 90, 100, 0.018) 4px 4px, rgba(88, 94, 103, 0.0175) 5px 5px, rgba(92, 98, 107, 0.017) 6px 6px, rgba(96, 102, 111, 0.0165) 7px 7px, rgba(101, 107, 115, 0.016) 8px 8px, rgba(105, 111, 119, 0.0155) 9px 9px, rgba(109, 115, 123, 0.015) 10px 10px, rgba(113, 119, 127, 0.0145) 11px 11px, rgba(117, 123, 131, 0.014) 12px 12px, rgba(122, 127, 135, 0.0135) 13px 13px, rgba(126, 131, 139, 0.013) 14px 14px, rgba(130, 135, 143, 0.0125) 15px 15px, rgba(135, 140, 147, 0.012) 16px 16px, rgba(139, 144, 151, 0.0115) 17px 17px, rgba(143, 148, 155, 0.011) 18px 18px, rgba(147, 152, 159, 0.0105) 19px 19px, rgba(152, 156, 163, 0.01) 20px 20px, rgba(156, 161, 167, 0.0095) 21px 21px, rgba(160, 165, 171, 0.009) 22px 22px, rgba(165, 169, 175, 0.0085) 23px 23px, rgba(169, 173, 179, 0.008) 24px 24px, rgba(173, 177, 183, 0.0075) 25px 25px, rgba(178, 182, 187, 0.007) 26px 26px, rgba(182, 186, 191, 0.0065) 27px 27px, rgba(187, 190, 195, 0.006) 28px 28px, rgba(191, 194, 199, 0.0055) 29px 29px, rgba(195, 199, 204, 0.005) 30px 30px, rgba(200, 203, 208, 0.0045) 31px 31px, rgba(204, 207, 212, 0.004) 32px 32px, rgba(209, 212, 216, 0.0035) 33px 33px, rgba(213, 216, 220, 0.003) 34px 34px, rgba(218, 220, 224, 0.0025) 35px 35px, rgba(222, 225, 228, 0.002) 36px 36px, rgba(227, 229, 232, 0.0015) 37px 37px, rgba(231, 233, 237, 0.001) 38px 38px, rgba(236, 238, 241, 0.0005) 39px 39px, rgba(240, 242, 245, 0) 40px 40px, rgba(67, 74, 84, 0.02) 0px 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #656D78;
+  color: #F0F2F5;
+  border-radius: 100%;
+}
+body .help .container {
+  display: none;
+  line-height: 18px;
+  position: absolute;
+  top: 41px;
+  right: -5px;
+  color: #000;
+  width: 200px;
+  z-index: 10000000000;
+  background-color: #fff;
+  padding: 0 20px;
+  box-shadow: rgba(70, 77, 87, 0.0196) 1px 1px, rgba(74, 80, 90, 0.0192) 2px 2px, rgba(77, 84, 93, 0.0188) 3px 3px, rgba(80, 87, 96, 0.0184) 4px 4px, rgba(84, 90, 100, 0.018) 5px 5px, rgba(87, 93, 103, 0.0176) 6px 6px, rgba(90, 97, 106, 0.0172) 7px 7px, rgba(94, 100, 109, 0.0168) 8px 8px, rgba(97, 103, 112, 0.0164) 9px 9px, rgba(101, 107, 115, 0.016) 10px 10px, rgba(104, 110, 118, 0.0156) 11px 11px, rgba(107, 113, 121, 0.0152) 12px 12px, rgba(111, 116, 125, 0.0148) 13px 13px, rgba(114, 120, 128, 0.0144) 14px 14px, rgba(117, 123, 131, 0.014) 15px 15px, rgba(121, 126, 134, 0.0136) 16px 16px, rgba(124, 130, 137, 0.0132) 17px 17px, rgba(128, 133, 140, 0.0128) 18px 18px, rgba(131, 136, 144, 0.0124) 19px 19px, rgba(135, 140, 147, 0.012) 20px 20px, rgba(138, 143, 150, 0.0116) 21px 21px, rgba(141, 146, 153, 0.0112) 22px 22px, rgba(145, 150, 156, 0.0108) 23px 23px, rgba(148, 153, 160, 0.0104) 24px 24px, rgba(152, 156, 163, 0.01) 25px 25px, rgba(155, 160, 166, 0.0096) 26px 26px, rgba(159, 163, 169, 0.0092) 27px 27px, rgba(162, 166, 173, 0.0088) 28px 28px, rgba(166, 170, 176, 0.0084) 29px 29px, rgba(169, 173, 179, 0.008) 30px 30px, rgba(173, 177, 182, 0.0076) 31px 31px, rgba(176, 180, 186, 0.0072) 32px 32px, rgba(180, 183, 189, 0.0068) 33px 33px, rgba(183, 187, 192, 0.0064) 34px 34px, rgba(187, 190, 195, 0.006) 35px 35px, rgba(190, 194, 199, 0.0056) 36px 36px, rgba(194, 197, 202, 0.0052) 37px 37px, rgba(197, 200, 205, 0.0048) 38px 38px, rgba(201, 204, 208, 0.0044) 39px 39px, rgba(204, 207, 212, 0.004) 40px 40px, rgba(208, 211, 215, 0.0036) 41px 41px, rgba(211, 214, 218, 0.0032) 42px 42px, rgba(215, 218, 222, 0.0028) 43px 43px, rgba(218, 221, 225, 0.0024) 44px 44px, rgba(222, 225, 228, 0.002) 45px 45px, rgba(226, 228, 232, 0.0016) 46px 46px, rgba(229, 232, 235, 0.0012) 47px 47px, rgba(233, 235, 238, 0.0008) 48px 48px, rgba(236, 239, 242, 0.0004) 49px 49px, rgba(240, 242, 245, 0) 50px 50px, rgba(67, 74, 84, 0.02) 0px 0px;
+}
+body .help .container:after {
+  position: absolute;
+  content: '';
+  bottom: 100%;
+  right: 0px;
+  border: 17px solid transparent;
+  border-bottom-color: #fff;
+}
+body .help .container a {
+  color: #5D9CEC;
+  text-decoration: none;
+}
+body .help:hover .container {
+  display: block;
+}
+body .tweetthis {
+  z-index: -10000000000;
+  cursor: pointer;
+  position: fixed;
+  top: 40px;
+  right: 60px;
+  box-shadow: rgba(71, 78, 88, 0.0195) 1px 1px, rgba(75, 82, 92, 0.019) 2px 2px, rgba(80, 86, 96, 0.0185) 3px 3px, rgba(84, 90, 100, 0.018) 4px 4px, rgba(88, 94, 103, 0.0175) 5px 5px, rgba(92, 98, 107, 0.017) 6px 6px, rgba(96, 102, 111, 0.0165) 7px 7px, rgba(101, 107, 115, 0.016) 8px 8px, rgba(105, 111, 119, 0.0155) 9px 9px, rgba(109, 115, 123, 0.015) 10px 10px, rgba(113, 119, 127, 0.0145) 11px 11px, rgba(117, 123, 131, 0.014) 12px 12px, rgba(122, 127, 135, 0.0135) 13px 13px, rgba(126, 131, 139, 0.013) 14px 14px, rgba(130, 135, 143, 0.0125) 15px 15px, rgba(135, 140, 147, 0.012) 16px 16px, rgba(139, 144, 151, 0.0115) 17px 17px, rgba(143, 148, 155, 0.011) 18px 18px, rgba(147, 152, 159, 0.0105) 19px 19px, rgba(152, 156, 163, 0.01) 20px 20px, rgba(156, 161, 167, 0.0095) 21px 21px, rgba(160, 165, 171, 0.009) 22px 22px, rgba(165, 169, 175, 0.0085) 23px 23px, rgba(169, 173, 179, 0.008) 24px 24px, rgba(173, 177, 183, 0.0075) 25px 25px, rgba(178, 182, 187, 0.007) 26px 26px, rgba(182, 186, 191, 0.0065) 27px 27px, rgba(187, 190, 195, 0.006) 28px 28px, rgba(191, 194, 199, 0.0055) 29px 29px, rgba(195, 199, 204, 0.005) 30px 30px, rgba(200, 203, 208, 0.0045) 31px 31px, rgba(204, 207, 212, 0.004) 32px 32px, rgba(209, 212, 216, 0.0035) 33px 33px, rgba(213, 216, 220, 0.003) 34px 34px, rgba(218, 220, 224, 0.0025) 35px 35px, rgba(222, 225, 228, 0.002) 36px 36px, rgba(227, 229, 232, 0.0015) 37px 37px, rgba(231, 233, 237, 0.001) 38px 38px, rgba(236, 238, 241, 0.0005) 39px 39px, rgba(240, 242, 245, 0) 40px 40px, rgba(67, 74, 84, 0.02) 0px 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 28px;
+  text-align: center;
+  background-color: #656D78;
+  color: #F0F2F5;
+  border-radius: 100%;
+}
+body .tweetthis .fa-heart {
+  margin-top: 4px;
+  display: none;
+  transition: .25s ease;
+  color: #F0F2F5;
+}
+body .tweetthis:active .fa-twitter {
+  display: none;
+}
+body .tweetthis:active .fa-heart {
+  display: block;
+  color: #D8334A;
+}
+body .palettes {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+body .palettes .palette {
+  position: relative;
+  width: 140px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: rgba(71, 78, 88, 0.0195) 1px 1px, rgba(75, 82, 92, 0.019) 2px 2px, rgba(80, 86, 96, 0.0185) 3px 3px, rgba(84, 90, 100, 0.018) 4px 4px, rgba(88, 94, 103, 0.0175) 5px 5px, rgba(92, 98, 107, 0.017) 6px 6px, rgba(96, 102, 111, 0.0165) 7px 7px, rgba(101, 107, 115, 0.016) 8px 8px, rgba(105, 111, 119, 0.0155) 9px 9px, rgba(109, 115, 123, 0.015) 10px 10px, rgba(113, 119, 127, 0.0145) 11px 11px, rgba(117, 123, 131, 0.014) 12px 12px, rgba(122, 127, 135, 0.0135) 13px 13px, rgba(126, 131, 139, 0.013) 14px 14px, rgba(130, 135, 143, 0.0125) 15px 15px, rgba(135, 140, 147, 0.012) 16px 16px, rgba(139, 144, 151, 0.0115) 17px 17px, rgba(143, 148, 155, 0.011) 18px 18px, rgba(147, 152, 159, 0.0105) 19px 19px, rgba(152, 156, 163, 0.01) 20px 20px, rgba(156, 161, 167, 0.0095) 21px 21px, rgba(160, 165, 171, 0.009) 22px 22px, rgba(165, 169, 175, 0.0085) 23px 23px, rgba(169, 173, 179, 0.008) 24px 24px, rgba(173, 177, 183, 0.0075) 25px 25px, rgba(178, 182, 187, 0.007) 26px 26px, rgba(182, 186, 191, 0.0065) 27px 27px, rgba(187, 190, 195, 0.006) 28px 28px, rgba(191, 194, 199, 0.0055) 29px 29px, rgba(195, 199, 204, 0.005) 30px 30px, rgba(200, 203, 208, 0.0045) 31px 31px, rgba(204, 207, 212, 0.004) 32px 32px, rgba(209, 212, 216, 0.0035) 33px 33px, rgba(213, 216, 220, 0.003) 34px 34px, rgba(218, 220, 224, 0.0025) 35px 35px, rgba(222, 225, 228, 0.002) 36px 36px, rgba(227, 229, 232, 0.0015) 37px 37px, rgba(231, 233, 237, 0.001) 38px 38px, rgba(236, 238, 241, 0.0005) 39px 39px, rgba(240, 242, 245, 0) 40px 40px, rgba(67, 74, 84, 0.02) 0px 0px;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+body .palettes .palette .colours {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+body .palettes .palette .colours > * {
+  cursor: crosshair;
+  flex-grow: 1;
+  transition: .25s ease;
+}
+body .palettes .palette .colours > *:hover {
+  flex-grow: 1.5;
+}
+body .palettes .palette .colours .c1 {
+  border-top-left-radius: 4px;
+}
+body .palettes .palette .colours .c2 {
+  border-top-right-radius: 4px;
+}
+body .palettes .palette .details {
+  padding: 6px 10px;
+}
+body .palettes .palette .details .name {
+  font-weight: bold;
+}
+body .palettes .palette .details .values {
+  display: none;
+  font-size: 12px;
+  color: #AAB2BD;
+}
+body .palettes .palette.add {
+  position: relative;
+  background-color: transparent;
+  width: 140px;
+  height: 102px;
+  border: 4px dotted #fff;
+  box-shadow: none;
+}
+body .palettes .palette.add .sign {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: #A0D468;
+  border-radius: 100%;
+  box-shadow: rgba(73, 79, 89, 0.0193333333) 1px 1px, rgba(78, 85, 94, 0.0186666667) 2px 2px, rgba(84, 90, 100, 0.018) 3px 3px, rgba(89, 96, 105, 0.0173333333) 4px 4px, rgba(95, 101, 110, 0.0166666667) 5px 5px, rgba(101, 107, 115, 0.016) 6px 6px, rgba(106, 112, 120, 0.0153333333) 7px 7px, rgba(112, 117, 126, 0.0146666667) 8px 8px, rgba(117, 123, 131, 0.014) 9px 9px, rgba(123, 129, 136, 0.0133333333) 10px 10px, rgba(129, 134, 142, 0.0126666667) 11px 11px, rgba(135, 140, 147, 0.012) 12px 12px, rgba(140, 145, 152, 0.0113333333) 13px 13px, rgba(146, 151, 158, 0.0106666667) 14px 14px, rgba(152, 156, 163, 0.01) 15px 15px, rgba(158, 162, 168, 0.0093333333) 16px 16px, rgba(163, 168, 174, 0.0086666667) 17px 17px, rgba(169, 173, 179, 0.008) 18px 18px, rgba(175, 179, 184, 0.0073333333) 19px 19px, rgba(181, 184, 190, 0.0066666667) 20px 20px, rgba(187, 190, 195, 0.006) 21px 21px, rgba(193, 196, 201, 0.0053333333) 22px 22px, rgba(198, 202, 206, 0.0046666667) 23px 23px, rgba(204, 207, 212, 0.004) 24px 24px, rgba(210, 213, 217, 0.0033333333) 25px 25px, rgba(216, 219, 223, 0.0026666667) 26px 26px, rgba(222, 225, 228, 0.002) 27px 27px, rgba(228, 230, 234, 0.0013333333) 28px 28px, rgba(234, 236, 239, 0.0006666667) 29px 29px, rgba(240, 242, 245, 0) 30px 30px, rgba(67, 74, 84, 0.02) 0px 0px;
+  cursor: pointer;
+}
+body .palettes .palette.add .sign:before, body .palettes .palette.add .sign:after {
+  width: 50%;
+  height: 10%;
+  position: absolute;
+  content: '';
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+body .palettes .palette.add .sign:after {
+  -webkit-transform: translate(-50%, -50%) rotate(90deg);
+          transform: translate(-50%, -50%) rotate(90deg);
+}
+body .individual {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+body .individual > * {
+  position: relative;
+  cursor: crosshair;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin: 0 20px;
+  box-shadow: rgba(71, 78, 88, 0.0195) 1px 1px, rgba(75, 82, 92, 0.019) 2px 2px, rgba(80, 86, 96, 0.0185) 3px 3px, rgba(84, 90, 100, 0.018) 4px 4px, rgba(88, 94, 103, 0.0175) 5px 5px, rgba(92, 98, 107, 0.017) 6px 6px, rgba(96, 102, 111, 0.0165) 7px 7px, rgba(101, 107, 115, 0.016) 8px 8px, rgba(105, 111, 119, 0.0155) 9px 9px, rgba(109, 115, 123, 0.015) 10px 10px, rgba(113, 119, 127, 0.0145) 11px 11px, rgba(117, 123, 131, 0.014) 12px 12px, rgba(122, 127, 135, 0.0135) 13px 13px, rgba(126, 131, 139, 0.013) 14px 14px, rgba(130, 135, 143, 0.0125) 15px 15px, rgba(135, 140, 147, 0.012) 16px 16px, rgba(139, 144, 151, 0.0115) 17px 17px, rgba(143, 148, 155, 0.011) 18px 18px, rgba(147, 152, 159, 0.0105) 19px 19px, rgba(152, 156, 163, 0.01) 20px 20px, rgba(156, 161, 167, 0.0095) 21px 21px, rgba(160, 165, 171, 0.009) 22px 22px, rgba(165, 169, 175, 0.0085) 23px 23px, rgba(169, 173, 179, 0.008) 24px 24px, rgba(173, 177, 183, 0.0075) 25px 25px, rgba(178, 182, 187, 0.007) 26px 26px, rgba(182, 186, 191, 0.0065) 27px 27px, rgba(187, 190, 195, 0.006) 28px 28px, rgba(191, 194, 199, 0.0055) 29px 29px, rgba(195, 199, 204, 0.005) 30px 30px, rgba(200, 203, 208, 0.0045) 31px 31px, rgba(204, 207, 212, 0.004) 32px 32px, rgba(209, 212, 216, 0.0035) 33px 33px, rgba(213, 216, 220, 0.003) 34px 34px, rgba(218, 220, 224, 0.0025) 35px 35px, rgba(222, 225, 228, 0.002) 36px 36px, rgba(227, 229, 232, 0.0015) 37px 37px, rgba(231, 233, 237, 0.001) 38px 38px, rgba(236, 238, 241, 0.0005) 39px 39px, rgba(240, 242, 245, 0) 40px 40px, rgba(67, 74, 84, 0.02) 0px 0px;
+  border: 4px solid #434A54;
+  background-color: #F5F7FA;
+}
+body .individual .red {
+  border-color: #ED5565;
+}
+body .individual .green {
+  border-color: #A0D468;
+}
+body .individual .blue {
+  border-color: #4FC1E9;
+}
+body .blast {
+  z-index: -1000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  opacity: 0.1;
+  border-radius: 100%;
+  -webkit-animation: blast 1s ease-in;
+          animation: blast 1s ease-in;
+}
+body .footnote {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+body .footnote a {
+  color: #5D9CEC;
+}
+body .hidden {
+  position: fixed;
+  top: -1000px;
+}
+body .footer {
+  z-index: -1000000;
+  font-style: italic;
+  color: #656D78;
+  text-align: center;
+}
+body .footer p {
+  text-shadow: #e7e9ed 1px 1px, #e7eaee 2px 2px, #e8eaee 3px 3px, #e8ebef 4px 4px, #e9ebef 5px 5px, #e9ecef 6px 6px, #eaecf0 7px 7px, #eaedf0 8px 8px, #ebedf1 9px 9px, #ebeef1 10px 10px, #eceef1 11px 11px, #eceef2 12px 12px, #edeff2 13px 13px, #edeff3 14px 14px, #eef0f3 15px 15px, #eef0f3 16px 16px, #eff1f4 17px 17px, #eff1f4 18px 18px, #f0f2f5 19px 19px, #f0f2f5 20px 20px, #E6E9ED 0px 0px;
+}
+
+::-webkit-resizer {
+  background-color: #F0F2F5;
+}
+
+::-webkit-scrollbar {
+  background-color: #F0F2F5;
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #F0F2F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #E6E9ED;
+  border-radius: 5px;
+}
+
+@-webkit-keyframes blast {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.3;
+  }
+  100% {
+    width: 1000px;
+    height: 1000px;
+    opacity: 0;
+  }
+}
+
+@keyframes blast {
+  0% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.3;
+  }
+  100% {
+    width: 1000px;
+    height: 1000px;
+    opacity: 0;
+  }
+}
+</style></head><body>
+<!--Easier URL: https://color.koya.io/-->
+
+<div class="error">
+   <div class="overlay">
+      <div class="close"></div>
+      <div class="colorcode">
+         <input type="text" class="errorcode"/>
+      </div>
+      <div class="desc">Your browser does not support clipboard.js - copy the color code above.</div>
+   </div>
+   <div class="catchment"></div>
+</div>
+
+
+<div class="header">
+   <div class="dropdown">
+      <div class="selection">HEX - #123DEF</div>
+      <div class="options">
+         <div class="selected">HEX - #123DEF</div>
+         <div>HEX - 123DEF</div>
+         <div>WHEX - #123</div>
+         <div>WHEX - 123</div>
+         <div>WHEX - #112233</div>
+         <div>WHEX - 112233</div>
+         <div>HEXA - #123DEFFF</div>
+         <div>HEXA - 123DEFFF</div>
+         <div>RGB - (255,255,255)</div>
+         <div>RGB - rgb(255,255,255)</div>
+         <div>RGBA - (255,255,255,1)</div>
+         <div>RGBA - rgba(255,255,255,1)</div>
+         <div>RGBA - (255,255,255,255)</div>
+         <div>RGBA - rgba(255,255,255,255)</div>
+         <div>RGB - Individual</div>
+         <div>CYMK - (0.1,0.1,0.1,0.1)</div>
+         <div>CYMK% - (10,10,10,10)</div>
+         <!--
+            To add:
+            CYMK
+         -->
+      </div>
+   </div>
+
+</div>
+
+<div class="palettes">
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="D8334A" style="background-color:#D8334A" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="BF263C" style="background-color:#BF263C" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Ruby</div>
+         <div class="values">#D8334A, #BF263C</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="ED5565" style="background-color:#ED5565" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="DA4453" style="background-color:#DA4453" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Grapefruit</div>
+         <div class="values">#ED5565, #DA4453</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="FC6E51" style="background-color:#FC6E51" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="E9573F" style="background-color:#E9573F" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Bittersweet</div>
+         <div class="values">#FC6E51, #E9573F</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="FFCE54" style="background-color:#FFCE54" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="F6BB42" style="background-color:#F6BB42" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Sunflower</div>
+         <div class="values">#FFCE54, #F6BB42</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="E8CE4D" style="background-color:#E8CE4D" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="E0C341" style="background-color:#E0C341" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Straw</div>
+         <div class="values">#E8CE4D, #E0C341</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="A0D468" style="background-color:#A0D468" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="8CC152" style="background-color:#8CC152" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Grass</div>
+         <div class="values">#A0D468, #8CC152</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="2ECC71" style="background-color:#2ECC71" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="2ABA66" style="background-color:#2ABA66" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Basil</div>
+         <div class="values">#2ECC71, #2ABA66</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="48CFAD" style="background-color:#48CFAD" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="37BC9B" style="background-color:#37BC9B" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Mint</div>
+         <div class="values">#48CFAD, #37BC9B</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="A0CECB" style="background-color:#A0CECB" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="7DB1B1" style="background-color:#7DB1B1" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Teal</div>
+         <div class="values">#A0CECB, #7DB1B1</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="4FC1E9" style="background-color:#4FC1E9" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="3BAFDA" style="background-color:#3BAFDA" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Aqua</div>
+         <div class="values">#4FC1E9, #3BAFDA</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="5D9CEC" style="background-color:#5D9CEC" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="4A89DC" style="background-color:#4A89DC" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Blue Jeans</div>
+         <div class="values">#5D9CEC, #4A89DC</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="AC92EC" style="background-color:#AC92EC" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="967ADC" style="background-color:#967ADC" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Lavender</div>
+         <div class="values">#AC92EC, #967ADC</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="8067B7" style="background-color:#8067B7" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="6A50A7" style="background-color:#6A50A7" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Plum</div>
+         <div class="values">#8067B7, #6A50A7</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="EC87C0" style="background-color:#EC87C0" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="D770AD" style="background-color:#D770AD" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Pink Rose</div>
+         <div class="values">#EC87C0, #D770AD</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="BAA286" style="background-color:#BAA286" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="AA8E69" style="background-color:#AA8E69" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Grizzly Bear</div>
+         <div class="values">#BAA286, #AA8E69</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="8E8271" style="background-color:#8E8271" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="7B7163" style="background-color:#7B7163" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Chocolate</div>
+         <div class="values">#8E8271, #7B7163</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="F5F7FA" style="background-color:#F5F7FA" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="E6E9ED" style="background-color:#E6E9ED" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Light Grey</div>
+         <div class="values">#F5F7FA, #E6E9ED</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="CCD1D9" style="background-color:#CCD1D9" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="AAB2BD" style="background-color:#AAB2BD" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Grey</div>
+         <div class="values">#CCD1D9, #AAB2BD</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="656D78" style="background-color:#656D78" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="434A54" style="background-color:#434A54" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Dark Grey</div>
+         <div class="values">#656D78, #434A54</div>
+      </div>
+   </div>
+   <div class="palette">
+      <div class="colours">
+         <div class="c1" color="3C3B3D" style="background-color:#3C3B3D" data-clipboard-target=".colourvalue"></div>
+         <div class="c2" color="323133" style="background-color:#323133" data-clipboard-target=".colourvalue"></div>
+      </div>
+      <div class="details">
+         <div class="name">Charcoal</div>
+         <div class="values">#3C3B3D, #323133</div>
+      </div>
+   </div>
+</div>
+<div class="individual" style="display:none">
+   <div class="red" data-clipboard-target=".colourvalue"></div>
+   <div class="green" data-clipboard-target=".colourvalue"></div>
+   <div class="blue" data-clipboard-target=".colourvalue"></div>
+</div>
+
+<!--<div class="palettes custompalettes">
+   <div class="palette add">
+      <div class="sign" color="A0D468"></div>
+   </div>
+</div>-->
+
+<div class="footer">
+   <p>"Compliment each other like colors"</p>
+</div>
+
+
+<div class="hidden">
+   <input type="text" class="colourvalue" />
+</div>
+<script src='//static.codepen.io/assets/common/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b19939c4500ce446314d1748483e13.js'></script>
+<script>if(window.location.href.indexOf("fullcpgrid") == -1) {
+   console.log("ok");
+   document.body.innerHTML += '<iframe src="https://codepen.io/z-/posts/popular/" frameborder="0" width="72" height="20" style="position:absolute; top:9px; right:8px; z-index:1000;"></iframe>';
+   /*document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="https://codepen.io/z-/pen/a8e37caf2a04602ea5815e5acedab458.css">'
+   document.body.innerHTML += '<iframe src="https://codepen.io/z-/" frameborder="0" width="72" height="20" style="position:absolute; top:9px; right:8px"></iframe>';*/
+}
+
+//fullcpgrid/a8e37caf2a04602ea5815e5acedab458</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script><script src='https://peterolson.github.io/BigInteger.js/BigInteger.min.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js'></script><script src='https://codepen.io/z-/pen/0a1bedbb8ca05b9afd329264fca7b921.js'></script>
+<script >//console.clear();
+
+setTimeout(function () {permitted = true;}, 500);
+
+var clip = new Clipboard('.colours >*');
+var clipr = new Clipboard('.individual .red');
+var clipg = new Clipboard('.individual .green');
+var clipb = new Clipboard('.individual .blue');
+var permitted = false;
+var selection = 0;
+var r,g,b,a = 255;
+
+clip.on('error', error());
+clipr.on('error', error());
+clipg.on('error', error());
+clipb.on('error', error());
+
+function error() {
+   if (permitted) {
+      console.error("Clip");
+      $(".error").addClass("shown");
+   }
+}
+$(".catchment, .close").click(function () {
+   $(".error").removeClass("shown");
+});
+
+$(".dropdown .options div").click(function () {
+   $(".dropdown .selection").text($(this).text());
+   $(".dropdown .options div").removeClass("selected");
+   $(this).addClass("selected");
+   selection = $(this).index();
+   if (selection == 14) {
+      $(".individual").css("display", "flex");
+   } else {
+      $(".individual").css("display", "none");
+   }
+});
+
+$(".sign").mousedown(function (e) {
+   var val = $(this).attr("color");
+   $(this).parent().parent().append('<div class="blast" id="' + ts + '" style="background-color:#' + val + '"></div>');
+   remove("#" + ts);
+});
+$(".colours >*").mousedown(function (e) {
+   var val = $(this).attr("color"),val2 = "";
+   var ts = Math.floor(e.timeStamp);
+   $(this).parent().parent().append('<div class="blast" id="' + ts + '" style="background-color:#' + val + '"></div>');
+   remove("#" + ts);
+   if (selection >= 2) {
+      r = $.baseConvert(val.substr(0, 2), 16, 10);
+      g = $.baseConvert(val.substr(2, 2), 16, 10);
+      b = $.baseConvert(val.substr(4, 2), 16, 10);
+      $(".individual .red").css("background-color", "rgb(" + r + ",0,0)");
+      $(".individual .green").css("background-color", "rgb(0," + g + ",0)");
+      $(".individual .blue").css("background-color", "rgb(0,0," + b + ")");
+   }
+   if (selection >= 2 && selection <= 5) {
+      /*C0 -> BB not CC*/
+      var r2 = Math.round(r / 17) + "";
+      val2 += $.baseConvert(r2, 10, 16);
+      /*I may have forgotten that jQuery already supports base 16-10 conversions absolutely fine*/
+      if (selection >= 4) {
+         val2 += $.baseConvert(r2, 10, 16);
+      }
+      var g2 = Math.round(g / 17) + "";
+      val2 += $.baseConvert(g2, 10, 16);
+      if (selection >= 4) {
+         val2 += $.baseConvert(g2, 10, 16);
+      }
+      var b2 = Math.round(b / 17) + "";
+      val2 += $.baseConvert(b2, 10, 16);
+      if (selection >= 4) {
+         val2 += $.baseConvert(b2, 10, 16);
+      }
+      val = val2;
+   }
+   if (selection >= 6 && selection <= 7) {
+      val += "FF";
+   }
+   switch (selection) {
+      case 0:case 2:case 4:case 6:
+         $(".colourvalue").val("#" + val);
+         $(".errorcode").val("#" + val);
+         break;
+      case 1:case 3:case 5:case 7:
+         $(".colourvalue").val(val);
+         $(".errorcode").val(val);
+         break;
+      case 8:
+         $(".colourvalue").val("(" + r + "," + g + "," + b + ")");
+         $(".errorcode").val("(" + r + "," + g + "," + b + ")");
+         break;
+      case 10:
+         $(".colourvalue").val("(" + r + "," + g + "," + b + ",1)");
+         $(".errorcode").val("(" + r + "," + g + "," + b + ",1)");
+         break;
+      case 12:
+         $(".colourvalue").val("(" + r + "," + g + "," + b + ",255)");
+         $(".errorcode").val("(" + r + "," + g + "," + b + ",255)");
+         break;
+      case 9:
+         $(".colourvalue").val("rgb(" + r + "," + g + "," + b + ")");
+         $(".errorcode").val("rgb(" + r + "," + g + "," + b + ")");
+         break;
+      case 11:
+         $(".colourvalue").val("rgba(" + r + "," + g + "," + b + ",1)");
+         $(".errorcode").val("rgba(" + r + "," + g + "," + b + ",1)");
+         break;
+      case 13:
+         $(".colourvalue").val("rgba(" + r + "," + g + "," + b + ",255)");
+         $(".errorcode").val("rgba(" + r + "," + g + "," + b + ",255)");
+         break;
+      case 15:case 16:
+         /*http://www.javascripter.net/faq/hex2cmyk.htm*/
+         var C = 1 - r / 255;
+         var M = 1 - g / 255;
+         var Y = 1 - b / 255;
+         var K = 0;
+         var minCMY = Math.min(C, Math.min(M, Y));
+         C = (C - minCMY) / (1 - minCMY);
+         M = (M - minCMY) / (1 - minCMY);
+         Y = (Y - minCMY) / (1 - minCMY);
+         K = minCMY;
+         if (selection == 15) {
+            $(".colourvalue").val("cymk(" + C + "," + Y + "," + M + "," + K + ")");
+            $(".errorcode").val("cymk(" + C + "," + Y + "," + M + "," + K + ")");
+         } else {
+            $(".colourvalue").val("cymk(" + C * 100 + "," + Y * 100 + "," + M * 100 + "," + K * 100 + ")");
+            $(".errorcode").val("cymk(" + C * 100 + "," + Y * 100 + "," + M * 100 + "," + K * 100 + ")");
+         }
+         break;}
+
+});
+
+$(".individual .red").mousedown(function () {
+   var ts = Math.floor(e.timeStamp);
+   $(this).append('<div class="blast" id="' + ts + '" style="background-color:rgb(' + r + ',0,0)"></div>');
+   remove("#" + ts);
+   $(".colourvalue").val(r);
+});
+
+$(".individual .green").mousedown(function () {
+   var ts = Math.floor(e.timeStamp);
+   $(this).append('<div class="blast" id="' + ts + '" style="background-color:rgb(0,' + g + ',0)" onload="remove()"></div>');
+   remove("#" + ts);
+   $(".colourvalue").val(g);
+});
+
+$(".individual .blue").mousedown(function () {
+   var ts = Math.floor(e.timeStamp);
+   $(this).append('<div class="blast" id="' + ts + '" style="background-color:rgb(0,0,' + b + ')" onload="remove()"></div>');
+   remove("#" + ts);
+   $(".colourvalue").val(b);
+});
+
+function remove(id) {
+   setTimeout(function () {$(id).remove();}, 1200);
+}
+
+/*https://github.com/koya-io/baseConvert.js*/
+$.baseConvert = function (n, i, t) {var r = "",e = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",o = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";if (36 >= i && (n = n.toUpperCase()), i > 64 || 2 > t || t > 64 || 2 > i ? r = "Error, selector out of bounds." : n.replace(/[^0-9a-zA-Z+\/]/g, "").length != n.length ? r = "Error, invalid character." : $.each((n + "").split(""), function (n, t) {i >= 63 ? 63 == i && "/" == t && (r = "Error, invalid character.") : o.indexOf(t) >= i && (r = "Error, invalid character.");}), "" == r) {var a = bigInt(0),g = "";for (n += "", i += "", t += "", $.each(n.split(""), function (t, r) {if (i >= 63) {var g = bigInt(n.length).minus(t).minus(1),l = bigInt(i).pow(g),d = bigInt(o.indexOf(r)).multiply(l);a = bigInt(a).add(d);} else {var g = bigInt(n.length).minus(t).minus(1),l = bigInt(i).pow(g),d = bigInt(o.indexOf(r)).multiply(l);a = bigInt(a).add(d);}}); a > 0;) {if (window.CP.shouldStopExecution(0)) break;g = t >= 63 ? e[bigInt(a).mod(t)] + "" + g : o[bigInt(a).mod(t)] + "" + g;var l = bigInt(a).mod(t);bigInt(a).minus(l), a = bigInt(a).divide(t);}window.CP.exitedLoop(0);return g;}return r;};
+//# sourceURL=pen.js
+</script>
+</body></html>
